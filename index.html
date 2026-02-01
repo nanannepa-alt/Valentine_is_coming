@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Eben, Be My Valentine</title>
+
+    <style>
+        body {
+            font-family: "Poppins", sans-serif;
+            text-align: center;
+            background: linear-gradient(135deg, #ffb3d9, #ffe6f2);
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* LOADING SCREEN */
+        #loadingScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #ffccdd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 9999;
+            animation: fadeOut 1s ease forwards;
+            animation-delay: 2.5s;
+        }
+
+        #loadingText {
+            font-size: 28px;
+            color: #d63384;
+            margin-top: 20px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.4; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes fadeOut {
+            to { opacity: 0; visibility: hidden; }
+        }
+
+        /* MAIN CONTENT */
+        #mainContent {
+            opacity: 0;
+            animation: fadeIn 1.5s ease forwards;
+            animation-delay: 3s;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        h1 {
+            font-size: 45px;
+            color: #d63384;
+            margin-top: 40px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+
+        .btn {
+            padding: 15px 35px;
+            font-size: 22px;
+            margin: 20px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        #yesBtn {
+            background-color: #ff4da6;
+            color: white;
+            box-shadow: 0 0 15px #ff99cc;
+        }
+
+        #yesBtn:hover {
+            transform: scale(1.1);
+        }
+
+        #noBtn {
+            background-color: #999;
+            color: white;
+            position: absolute;
+            left: 50%;
+            top: 70%;
+            transform: translate(-50%, -50%);
+        }
+
+        #loveMessage {
+            display: none;
+            font-size: 55px;
+            color: #ff0066;
+            margin-top: 40px;
+            animation: pop 0.6s ease-out forwards;
+        }
+
+        @keyframes pop {
+            0% { transform: scale(0.2); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .heart {
+            position: fixed;
+            bottom: -10px;
+            color: #ff4da6;
+            font-size: 25px;
+            animation: rise 6s linear infinite;
+        }
+
+        @keyframes rise {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
+        }
+
+        #photo {
+            width: 260px;
+            height: 260px;
+            border-radius: 20px;
+            object-fit: cover;
+            margin-top: 20px;
+            box-shadow: 0 0 20px #ff99cc;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- LOADING SCREEN -->
+<div id="loadingScreen">
+    <img src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif" width="120">
+    <div id="loadingText">A special message from Nnepa…</div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div id="mainContent">
+    <h1>Eben, will you be my Valentine? 💖</h1>
+
+    <!-- CUSTOM PHOTO -->
+    <img id="photo" src="https://github.com/nanannepa-alt/Valentine_is_coming/blob/main/WhatsApp%20Image%202026-01-31%20at%2019.57.19.jpeg?raw=true">
+
+    <button id="yesBtn" class="btn">Yes</button>
+    <button id="noBtn" class="btn">No 😭</button>
+
+    <div id="loveMessage">I love you, Baby! ❤️<br>– Nnepa</div>
+
+    <img id="gif" src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif" width="300" style="display:none; margin-top:20px;">
+</div>
+
+<!-- MUSIC -->
+<audio id="bgMusic" autoplay loop playsinline>
+    <source src="https://files.catbox.moe/b9wskz.mp3" type="audio/mp3">
+</audio>
+
+<script>
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const loveMessage = document.getElementById("loveMessage");
+    const gif = document.getElementById("gif");
+    const photo = document.getElementById("photo");
+    const bgMusic = document.getElementById("bgMusic");
+
+    /* 🎵 Strong autoplay script with retry */
+    window.addEventListener("load", () => {
+        const tryPlay = () => {
+            bgMusic.muted = true;
+            bgMusic.play().then(() => {
+                setTimeout(() => {
+                    bgMusic.muted = false;
+                }, 300);
+            }).catch(() => {
+                setTimeout(tryPlay, 300);
+            });
+        };
+        tryPlay();
+    });
+
+    // Chaotic "No" button
+    noBtn.addEventListener("mouseover", () => {
+        const x = Math.random() * (window.innerWidth - 150);
+        const y = Math.random() * (window.innerHeight - 150);
+        noBtn.style.left = x + "px";
+        noBtn.style.top = y + "px";
+        noBtn.innerText = [
+            "No 😭",
+            "Stop chasing me!",
+            "Please don't click me!",
+            "Oh Wofa Aden! 😩",
+            "Try again 😂"
+        ][Math.floor(Math.random() * 5)];
+    });
+
+    // When he clicks Yes
+    yesBtn.addEventListener("click", () => {
+        loveMessage.style.display = "block";
+        gif.style.display = "block";
+        yesBtn.style.display = "none";
+        noBtn.style.display = "none";
+        photo.style.display = "block";
+
+        for (let i = 0; i < 30; i++) {
+            let heart = document.createElement("div");
+            heart.classList.add("heart");
+            heart.innerHTML = "❤️";
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
+            document.body.appendChild(heart);
+
+            setTimeout(() => heart.remove(), 6000);
+        }
+    });
+</script>
+
+</body>
+</html>
